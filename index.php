@@ -33,9 +33,9 @@ foreach ($events as $event) {
 	}
 
 	$text = $event->getText();
-	if($text == "画像"){
+	//if($text == "画像"){
 		replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/original.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/preview.jpg");
-	}
+	//}
 }
 
 function replyTextMessage($bot, $replyToken, $text) {
