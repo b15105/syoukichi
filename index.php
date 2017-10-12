@@ -33,8 +33,8 @@ foreach ($events as $event) {
 	}
 
 	$text = $event->getText();
-	if($text == "画像"){
-		replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/original.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/preview.jpg");
+	if($text == "こぶしで"){
+		replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
 	}
 }
 
@@ -47,6 +47,13 @@ function replyTextMessage($bot, $replyToken, $text) {
 
 function replyImageMessage($bot, $replyToken, $originalImageUrl, $previewImageUrl) {
   $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\ImageMessageBuilder($originalImageUrl, $previewImageUrl));
+  if (!$response->isSucceeded()) {
+    error_log('Failed!'. $response->getHTTPStatus . ' ' . $response->getRawBody());
+  }
+}
+
+function replyVideoMessage($bot, $replyToken, $originalImageUrl, $previewImageUrl) {
+  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\VideoMessageBuilder($originalImageUrl, $previewImageUrl));
   if (!$response->isSucceeded()) {
     error_log('Failed!'. $response->getHTTPStatus . ' ' . $response->getRawBody());
   }
