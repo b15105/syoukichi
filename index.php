@@ -32,10 +32,18 @@ foreach ($events as $event) {
 	  continue;
 	}
 
-	$text = $event->getText();
-	if($text == "こぶしで"){
-		replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
+	//画像が送られてきた場合
+	if("image" == $event->massage->type){
+		$response = $bot->getMessageContent($event->massage->id);
+		$text = "test";
+		replyTextMessage($bot, $event->getReplyToken(), $text);
 	}
+
+	
+	//$text = $event->getText();
+	//if($text == "こぶしで"){
+	//	replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
+	//}
 }
 
 function replyTextMessage($bot, $replyToken, $text) {
