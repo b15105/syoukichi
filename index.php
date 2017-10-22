@@ -36,8 +36,37 @@ foreach ($events as $event) {
 
 	if($event instanceof \LINE\LINEBot\Event\MessageEvent\ImageMessage){
 
-		$text = $event->getMessageId();
-		replyTextMessage($bot, $event->getReplyToken(),$text);
+
+		//$handler = new ImageMessageHandler($bot, $logger, $req, $event);
+		//$handler->handle();
+
+
+		$response = $bot->getMessageContent($event->getMessageId());
+		if ($response->isSucceeded()) {
+				$tempfile = tmpfile();
+				fwrite($tempfile, $response->getRawBody());
+		} else {
+				error_log($response->getHTTPStatus() . ' ' . $response->getRawBody());
+		}
+
+		
+		$fp = fopen("https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg",'wb');
+
+		if ($fp){
+			if (flock($fp, LOCK_EX)){
+					if (fwrite($fp,  $tempfile ) === FALSE){
+						$text = 'miss';
+						replyTextMessage($bot, $event->getReplyToken(), $text);
+					}
+					flock($fp, LOCK_UN);
+			}else{
+				$text = 'miss';
+				replyTextMessage($bot, $event->getReplyToken(), $text);
+			}
+	}
+	fclose($fp);
+		
+	replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg");
 	}
 
 
