@@ -36,13 +36,8 @@ foreach ($events as $event) {
 
 	if($event instanceof \LINE\LINEBot\Event\MessageEvent\ImageMessage){
 
-		$response = $bot->getMessageContent($event->getMessageId());
-		if ($response->isSucceeded()) {
-				$tempfile = tmpfile();
-				fwrite($tempfile, $response->getRawBody());
-		} else {
-				error_log($response->getHTTPStatus() . ' ' . $response->getRawBody());
-		}
+		$text = $event->getMessageId();
+		replyTextMessage($bot, $event->getReplyToken(),$text);
 	}
 
 
