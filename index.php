@@ -41,10 +41,8 @@ foreach ($events as $event) {
 		//$handler->handle();
 
 
-		$text = $bot->getMessageContent($event->getMessageId());
-		replyTextMessage($bot, $event->getReplyToken(), $text);
-
-
+		$response  = $bot->getMessageContent($event->getMessageId());
+		
 		if ($response->isSucceeded()) {
 				$tempfile = tmpfile();
 				fwrite($tempfile, $response->getRawBody());
