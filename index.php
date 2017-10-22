@@ -24,26 +24,32 @@ try {
 //メッセージ型のチェックとオウム返し
 foreach ($events as $event) {
 
+
+	if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
+	  error_log('Non message event has come');
+	  continue;
+	}
+	if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
+	  error_log('Non text message has come');
+	 continue;
+	}
+
+
 	if ("message" == $event->type){
+		
 		if ("text" == $event->message->type) {
 			$text = $event->getText();
+			
 			if($text == "こぶし"){
 			 replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
 			}
-		}else {
-		$text = "test";
-		replyTextMessage($bot, $event->getReplyToken(), $text);
-		}
-	}
 
-	//if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
-	//  error_log('Non message event has come');
-	//  continue;
-	//}
-	//if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
-	//  error_log('Non text message has come');
-	//  continue;
-	//}
+		}else {
+			$text = "test";
+			replyTextMessage($bot, $event->getReplyToken(), $text);
+		}
+		
+	}
 
 
 }
