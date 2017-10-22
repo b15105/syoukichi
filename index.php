@@ -63,12 +63,12 @@ foreach ($events as $event) {
 				$text = 'miss';
 				replyTextMessage($bot, $event->getReplyToken(), $text);
 			}
-	}
-	fclose($fp);
+	
+		fclose($fp);
 		
-	replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg");
+		replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg");
+		}
 	}
-
 
 	//↓こいつが問題
 	//if ("text" == $event->message->type) {
