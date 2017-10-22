@@ -34,7 +34,7 @@ foreach ($events as $event) {
 		$text = "test";
 		replyTextMessage($bot, $event->getReplyToken(), $text);
 		}
-
+	}
 
 
 	//画像が送られてきた場合
