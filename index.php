@@ -24,6 +24,19 @@ try {
 //メッセージ型のチェックとオウム返し
 foreach ($events as $event) {
 
+	if ("message" == $event->type){
+		if ("text" == $event->message->type) {
+			$text = $event->getText();
+			if($text == "こぶし"){
+			 replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
+			}
+		}else {
+		$text = "test";
+		replyTextMessage($bot, $event->getReplyToken(), $text);
+		}
+
+
+
 	//画像が送られてきた場合
 	if("image" == $event->message->type){
 		$response = $bot->getMessageContent($event->message->id);
