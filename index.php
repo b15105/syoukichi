@@ -35,21 +35,21 @@ foreach ($events as $event) {
 	}
 
 
-	if ("message" == $event->type){
+
 		
-		if ("text" == $event->message->type) {
+	if ("text" == $event->message->type) {
 			$text = $event->getText();
 			
-			if($text == "こぶし"){
+		if($text == "こぶし"){
 			 replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
-			}
-
-		}else {
-			$text = "test";
-			replyTextMessage($bot, $event->getReplyToken(), $text);
 		}
-		
+
+	}else {
+		$text = "test";
+		replyTextMessage($bot, $event->getReplyToken(), $text);
 	}
+
+	
 
 
 }
@@ -68,11 +68,5 @@ function replyImageMessage($bot, $replyToken, $originalImageUrl, $previewImageUr
   }
 }
 
-function replyVideoMessage($bot, $replyToken, $originalImageUrl, $previewImageUrl) {
-  $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\VideoMessageBuilder($originalImageUrl, $previewImageUrl));
-  if (!$response->isSucceeded()) {
-    error_log('Failed!'. $response->getHTTPStatus . ' ' . $response->getRawBody());
-  }
-}
 
  ?>
