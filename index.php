@@ -29,17 +29,24 @@ foreach ($events as $event) {
 	  error_log('Non message event has come');
 	  continue;
 	}
-	if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
-	  error_log('Non text message has come');
-	 continue;
+	//if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
+	//  error_log('Non text message has come');
+	// continue;
+	//}
+
+	if($event instanceof \LINE\LINEBot\Event\MessageEvent\ImageMessage){
+		$text = "test";
+		replyTextMessage($bot, $event->getReplyToken(), $text);
 	}
 
-		$text = $event->getText();
-			
-		if($text == "こぶし"){
-			 replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
-		}
 
+	//↓こいつが問題
+	//if ("text" == $event->message->type) {
+		
+	$text = $event->getText();			
+	if($text == "こぶし"){
+		replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
+	}
 
 
 	
