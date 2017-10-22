@@ -32,10 +32,10 @@ foreach ($events as $event) {
 	}
 
 	
-	//$text = $event->getText();
-	//if($text == "こぶしで"){
-	//	replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
-	//}
+	$text = $event->getText();
+	if($text == "こぶしで"){
+	 replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
+	}
 
 	if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
 	  error_log('Non message event has come');
