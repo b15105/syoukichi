@@ -41,7 +41,10 @@ foreach ($events as $event) {
 		//$handler->handle();
 
 
-		$response = $bot->getMessageContent($event->getMessageId());
+		$text = $bot->getMessageContent($event->getMessageId());
+		replyTextMessage($bot, $event->getReplyToken(), $text);
+
+
 		if ($response->isSucceeded()) {
 				$tempfile = tmpfile();
 				fwrite($tempfile, $response->getRawBody());
@@ -65,8 +68,6 @@ foreach ($events as $event) {
 			}
 	
 		fclose($fp);
-		$text = 'miss';
-		replyTextMessage($bot, $event->getReplyToken(), $text);
 		replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg");
 		}
 	}
