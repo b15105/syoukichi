@@ -23,14 +23,6 @@ try {
 
 //メッセージ型のチェックとオウム返し
 foreach ($events as $event) {
-	if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
-	  error_log('Non message event has come');
-	  continue;
-	}
-	if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
-	  error_log('Non text message has come');
-	  continue;
-	}
 
 	//画像が送られてきた場合
 	if("image" == $event->massage->type){
@@ -44,6 +36,17 @@ foreach ($events as $event) {
 	//if($text == "こぶしで"){
 	//	replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
 	//}
+
+	if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
+	  error_log('Non message event has come');
+	  continue;
+	}
+	if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
+	  error_log('Non text message has come');
+	  continue;
+	}
+
+
 }
 
 function replyTextMessage($bot, $replyToken, $text) {
