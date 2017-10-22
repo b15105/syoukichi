@@ -36,28 +36,14 @@ foreach ($events as $event) {
 		}
 	}
 
-
-	//画像が送られてきた場合
-	if("image" == $event->message->type){
-		$response = $bot->getMessageContent($event->message->id);
-		$text = "test";
-		replyTextMessage($bot, $event->getReplyToken(), $text);
-	}
-
-	
-	$text = $event->getText();
-	if($text == "こぶしで"){
-	 replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
-	}
-
-	if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
-	  error_log('Non message event has come');
-	  continue;
-	}
-	if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
-	  error_log('Non text message has come');
-	  continue;
-	}
+	//if (!($event instanceof \LINE\LINEBot\Event\MessageEvent)) {
+	//  error_log('Non message event has come');
+	//  continue;
+	//}
+	//if (!($event instanceof \LINE\LINEBot\Event\MessageEvent\TextMessage)) {
+	//  error_log('Non text message has come');
+	//  continue;
+	//}
 
 
 }
