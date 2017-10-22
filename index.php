@@ -25,8 +25,8 @@ try {
 foreach ($events as $event) {
 
 	//画像が送られてきた場合
-	if("image" == $event->massage->type){
-		$response = $bot->getMessageContent($event->massage->id);
+	if("image" == $event->message->type){
+		$response = $bot->getMessageContent($event->message->id);
 		$text = "test";
 		replyTextMessage($bot, $event->getReplyToken(), $text);
 	}
