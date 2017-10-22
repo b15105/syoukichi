@@ -65,7 +65,8 @@ foreach ($events as $event) {
 			}
 	
 		fclose($fp);
-		
+		$text = 'miss';
+		replyTextMessage($bot, $event->getReplyToken(), $text);
 		replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg");
 		}
 	}
