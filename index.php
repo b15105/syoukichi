@@ -34,20 +34,13 @@ foreach ($events as $event) {
 	 continue;
 	}
 
-
-
-		
-	if ("text" == $event->message->type) {
-			$text = $event->getText();
+		$text = $event->getText();
 			
 		if($text == "こぶし"){
 			 replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
 		}
 
-	}else {
-		$text = "test";
-		replyTextMessage($bot, $event->getReplyToken(), $text);
-	}
+
 
 	
 
