@@ -36,42 +36,43 @@ foreach ($events as $event) {
 
 	if($event instanceof \LINE\LINEBot\Event\MessageEvent\ImageMessage){
 
+		$messageId = $event->getMessageId();
 
-		//$handler = new ImageMessageHandler($bot, $logger, $req, $event);
-		//$handler->handle();
+		//画像ファイルのバイナリ取得
+		$ch = curl_init("https://api.line.me/v2/bot/message/".$messageId."/content");
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+ 			'Content-Type: application/json; charser=UTF-8',
+ 			'Authorization: Bearer ' . $accessToken
+ 		));
+		$result = curl_exec($ch);
+		curl_close($ch);
 
-
-		$response  = $bot->getMessageContent($event->getMessageId());
-		
-		if ($response->isSucceeded()) {
-				$tempfile = tmpfile();
-				fwrite($tempfile, $response->getRawBody());
-		} else {
-				error_log($response->getHTTPStatus() . ' ' . $response->getRawBody());
-		}
-
-		
-		$fp = fopen("https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg",'wb');
+		//画像ファイルの作成  
+		$fp = fopen("https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg", 'wb');
 
 		if ($fp){
-			if (flock($fp, LOCK_EX)){
-					if (fwrite($fp,  $tempfile ) === FALSE){
-						$text = 'miss';
-						replyTextMessage($bot, $event->getReplyToken(), $text);
-					}
-					flock($fp, LOCK_UN);
-			}else{
-				$text = 'miss';
-				replyTextMessage($bot, $event->getReplyToken(), $text);
-			}
-	
-		fclose($fp);
-		replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg");
+    	if (flock($fp, LOCK_EX)){
+      	if (fwrite($fp,  $result ) === FALSE){
+            error_log('ファイル書き込みに失敗しました<br>');
+      	}else{
+            error_log('をファイルに書き込みました<br>');
+      	}
+
+      	flock($fp, LOCK_UN);
+    	}else{
+        error_log('ファイルロックに失敗しました<br>');
+    	}
 		}
+
+		fclose($fp);
+
+
+
+		replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg");
+		
 	}
 
-	//↓こいつが問題
-	//if ("text" == $event->message->type) {
 		
 	$text = $event->getText();			
 	if($text == "こぶし"){
