@@ -36,40 +36,19 @@ foreach ($events as $event) {
 
 	if($event instanceof \LINE\LINEBot\Event\MessageEvent\ImageMessage){
 
-		$messageId = $event->getMessageId();
+		$content = $bot->getMessageContent($event->getMessageId());
+		$headers = $content->getHeaders();
 
-		//画像ファイルのバイナリ取得
-		$ch = curl_init("https://api.line.me/v2/bot/message/".$messageId."/content");
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
- 			'Content-Type: application/json; charser=UTF-8',
- 			'Authorization: Bearer ' . $accessToken
- 		));
-		$result = curl_exec($ch);
-		curl_close($ch);
+		$dir_path = 'https://" . $_SERVER["HTTP_HOST"] . "/imgs';
+		$filename = 'tmp'
 
-		//画像ファイルの作成  
-		$fp = fopen("./tmp.jpg", 'wb');
+		$extension = explode('/',$headers['Content-Type'])[1];
 
-		if ($fp){
-    	if (flock($fp, LOCK_EX)){
-      	if (fwrite($fp,  $result ) === FALSE){
-            error_log('ファイル書き込みに失敗しました<br>');
-      	}else{
-            error_log('をファイルに書き込みました<br>');
-      	}
+		file_put_contents($dir_path . '/' . $filename . '.' . $extension,$content->getRawBody());
+		
+		$filepath = $dir_path . '/' . $filename . '.' . $extension ;
 
-      	flock($fp, LOCK_UN);
-    	}else{
-        error_log('ファイルロックに失敗しました<br>');
-    	}
-		}
-
-		fclose($fp);
-
-
-
-		replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg");
+		replyImageMessage($bot, $event->getReplyToken(), $filepath,$filepath);
 		
 	}
 
