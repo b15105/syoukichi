@@ -54,21 +54,58 @@ foreach ($events as $event) {
 		//URLの作成
 		$filepath = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $dir_path . '/' . $filename . '.' . $extension ;
 
-		replyImageMessage($bot, $event->getReplyToken(), $filepath,$filepath);
+		//replyImageMessage($bot, $event->getReplyToken(), $filepath,$filepath);
+		$text = vision($filepath);
+		replyTextMessage($bot, $event->getReplyToken(), $text);
 		
 	}
 
-		
-	//$text = $event->getText();			
-	//if($text == "こぶし"){
-	//	replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
-	//}
-
-
-	
-
-
 }
+
+function  vision($imageNm){
+	 // APIキー
+	 $apiKey = "AIzaSyDCfQR3C1cKD4yfHUPJ5ybi5JFia8AOUro";
+	 	 
+	 // リクエスト用json作成
+	$json = json_encode(array(
+		"requests" => array(
+			array(
+				"image" => array(
+				"content" => base64_encode(file_get_contents($imageNm)),
+			),
+				"features" => array(
+					array(
+		 				"type" => "LABEL_DETECTION",
+						"maxResults" => 3,
+			 		),
+				),
+			),
+		),
+	));
+	 
+	// 各種オプションを設定
+	$curl = curl_init();
+	curl_setopt($curl, CURLOPT_URL, "https://vision.googleapis.com/v1/images:annotate?key=" . $apiKey); // Google Cloud Vision APIのURLを設定
+	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); // curl_execの結果を文字列で取得
+	curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); // サーバ証明書の検証を行わない
+	curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST"); // POSTでリクエストする
+	curl_setopt($curl, CURLOPT_HTTPHEADER, array("Content-Type: application/json")); // 送信するHTTPヘッダーの設定
+	curl_setopt($curl, CURLOPT_TIMEOUT, 15); // タイムアウト時間の設定（秒）
+	curl_setopt($curl, CURLOPT_POSTFIELDS, $json); // 送信するjsonデータを設定
+	 
+	// curl実行
+	$res = curl_exec($curl);
+	$data = json_decode($res, true);
+	curl_close($curl);
+	 
+	// 出力
+	//var_dump($data);
+	// 結果を表示
+	return $data["responses"][0]['labelAnnotations'][0]['description']
+}
+
+
+
 
 function replyTextMessage($bot, $replyToken, $text) {
   $response = $bot->replyMessage($replyToken, new \LINE\LINEBot\MessageBuilder\TextMessageBuilder($text));
