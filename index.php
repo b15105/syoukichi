@@ -1,5 +1,5 @@
 <?php
-
+phpinfo();
 //オートローダの指定
 require_once __DIR__ . '/vendor/autoload.php';
 
