@@ -65,7 +65,8 @@ foreach ($events as $event) {
 function  vision($imageNm){
 	 // APIキー
 	 $apiKey = "AIzaSyDCfQR3C1cKD4yfHUPJ5ybi5JFia8AOUro";
-	 	 
+		 
+	 error_log('呼び出し成功');
 	 // リクエスト用json作成
 	$json = json_encode(array(
 		"requests" => array(
