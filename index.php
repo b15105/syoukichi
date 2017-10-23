@@ -39,14 +39,14 @@ foreach ($events as $event) {
 		$content = $bot->getMessageContent($event->getMessageId());
 		$headers = $content->getHeaders();
 
-		$dir_path = 'https://" . $_SERVER["HTTP_HOST"] . "/imgs';
+		$dir_path = 'imgs';
 		$filename = 'tmp';
 			
 		$extension = explode('/',$headers['Content-Type'])[1];
 
 		file_put_contents($dir_path . '/' . $filename . '.' . $extension,$content->getRawBody());
 		
-		$filepath = $dir_path . '/' . $filename . '.' . $extension ;
+		$filepath = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $dir_path . '/' . $filename . '.' . $extension ;
 
 		replyImageMessage($bot, $event->getReplyToken(), $filepath,$filepath);
 		
