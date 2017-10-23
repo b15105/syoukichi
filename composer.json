@@ -1,7 +1,6 @@
 {
     "require": {
         "linecorp/line-bot-sdk": "^2.2",
-        "google/cloud": "^0.40.0",
-        "php": "~5.5.12"
+        "google/cloud": "^0.40.0"
     }
 }

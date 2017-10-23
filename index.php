@@ -1,5 +1,5 @@
 <?php
-phpinfo();
+
 //オートローダの指定
 require_once __DIR__ . '/vendor/autoload.php';
 
@@ -40,8 +40,7 @@ foreach ($events as $event) {
 		$headers = $content->getHeaders();
 
 		$dir_path = 'https://" . $_SERVER["HTTP_HOST"] . "/imgs';
-		$filename = 'tmp'
-
+		$filename = 'tmp';
 			
 		$extension = explode('/',$headers['Content-Type'])[1];
 
