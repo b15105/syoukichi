@@ -49,7 +49,7 @@ foreach ($events as $event) {
 		curl_close($ch);
 
 		//画像ファイルの作成  
-		$fp = fopen("https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg", 'wb');
+		$fp = fopen("./tmp.jpg", 'wb');
 
 		if ($fp){
     	if (flock($fp, LOCK_EX)){
