@@ -35,17 +35,23 @@ foreach ($events as $event) {
 	//}
 
 	if($event instanceof \LINE\LINEBot\Event\MessageEvent\ImageMessage){
-
+		
+		//イベントコンテンツの取得
 		$content = $bot->getMessageContent($event->getMessageId());
+		//コンテンツヘッダーを取得
 		$headers = $content->getHeaders();
 
+		//フォルダ指定とファイル名の取得
 		$dir_path = 'imgs';
 		$filename = 'tmp';
-			
+		
+		//コンテンツの種類を取得
 		$extension = explode('/',$headers['Content-Type'])[1];
 
+		//保存先フォルダに画像を保存
 		file_put_contents($dir_path . '/' . $filename . '.' . $extension,$content->getRawBody());
 		
+		//URLの作成
 		$filepath = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $dir_path . '/' . $filename . '.' . $extension ;
 
 		replyImageMessage($bot, $event->getReplyToken(), $filepath,$filepath);
