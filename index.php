@@ -42,7 +42,8 @@ foreach ($events as $event) {
 		$dir_path = 'https://" . $_SERVER["HTTP_HOST"] . "/imgs';
 		$filename = 'tmp'
 
-		$extension = explode('/',$headers['Content-Type'])[1];
+		$a = explode('/' , $headers['Content-Type']);
+		$extension = $a[1];
 
 		file_put_contents($dir_path . '/' . $filename . '.' . $extension,$content->getRawBody());
 		
