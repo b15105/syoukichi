@@ -102,7 +102,7 @@ function  vision($imageNm){
 	// 出力
 	//var_dump($data);
 	// 結果を表示
-	return $data["responses"][0]['labelAnnotations'][0]['description']
+	return $data["responses"][0]['labelAnnotations'][0]['description'];
 }
 
 
