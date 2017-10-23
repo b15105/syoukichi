@@ -35,48 +35,34 @@ foreach ($events as $event) {
 	//}
 
 	if($event instanceof \LINE\LINEBot\Event\MessageEvent\ImageMessage){
-
-
-		//$handler = new ImageMessageHandler($bot, $logger, $req, $event);
-		//$handler->handle();
-
-
-		$response  = $bot->getMessageContent($event->getMessageId());
 		
-		if ($response->isSucceeded()) {
-				$tempfile = tmpfile();
-				fwrite($tempfile, $response->getRawBody());
-		} else {
-				error_log($response->getHTTPStatus() . ' ' . $response->getRawBody());
-		}
+		//イベントコンテンツの取得
+		$content = $bot->getMessageContent($event->getMessageId());
+		//コンテンツヘッダーを取得
+		$headers = $content->getHeaders();
 
+		//フォルダ指定とファイル名の取得
+		$dir_path = 'imgs';
+		$filename = 'tmp';
 		
-		$fp = fopen("https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg",'wb');
+		//コンテンツの種類を取得
+		$extension = explode('/',$headers['Content-Type'])[1];
 
-		if ($fp){
-			if (flock($fp, LOCK_EX)){
-					if (fwrite($fp,  $tempfile ) === FALSE){
-						$text = 'miss';
-						replyTextMessage($bot, $event->getReplyToken(), $text);
-					}
-					flock($fp, LOCK_UN);
-			}else{
-				$text = 'miss';
-				replyTextMessage($bot, $event->getReplyToken(), $text);
-			}
-	
-		fclose($fp);
-		replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/tmp.jpg");
-		}
+		//保存先フォルダに画像を保存
+		file_put_contents($dir_path . '/' . $filename . '.' . $extension,$content->getRawBody());
+		
+		//URLの作成
+		$filepath = 'https://' . $_SERVER['HTTP_HOST'] . '/' . $dir_path . '/' . $filename . '.' . $extension ;
+
+		replyImageMessage($bot, $event->getReplyToken(), $filepath,$filepath);
+		
 	}
 
-	//↓こいつが問題
-	//if ("text" == $event->message->type) {
 		
-	$text = $event->getText();			
-	if($text == "こぶし"){
-		replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
-	}
+	//$text = $event->getText();			
+	//if($text == "こぶし"){
+	//	replyImageMessage($bot, $event->getReplyToken(), "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg", "https://" . $_SERVER["HTTP_HOST"] . "/imgs/test0.jpg");
+	//}
 
 
 	
